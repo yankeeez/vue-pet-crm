@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
-      <span class="card-title">Personal accountant</span>
+      <span class="card-title">Personal Accountant</span>
       <div class="input-field">
         <input
           id="email"
@@ -24,18 +24,13 @@
           id="password"
           type="password"
           v-model.trim="password"
-          :class="{invalid: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}"
+          :class="{invalid: ($v.password.$dirty && !$v.password.required)}"
         >
         <label for="password">Password</label>
         <small
           class="helper-text invalid"
           v-if="$v.password.$dirty && !$v.password.required"
         >Password is required</small>
-        <small
-          class="helper-text invalid"
-          v-else-if="$v.password.$dirty && !$v.password.minLength"
-        >Password is too short</small>
-<!-- Last small not for login        sfsd-->
       </div>
     </div>
     <div class="card-action">
@@ -58,7 +53,8 @@
 </template>
 
 <script>
-import { email, required, minLength } from 'vuelidate/lib/validators'
+import { email, required } from 'vuelidate/lib/validators'
+import messages from '../utils/messages'
 
 export default {
   name: 'login',
@@ -68,7 +64,12 @@ export default {
   }),
   validations: {
     email: { email, required },
-    password: { required, minLength: minLength(6) }
+    password: { required }
+  },
+  mounted () {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message])
+    }
   },
   methods: {
     submitHandler () {
