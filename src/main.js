@@ -8,14 +8,38 @@ import messagePlugin from '@/utils/message.plugin'
 import './registerServiceWorker'
 import 'materialize-css/dist/js/materialize.min'
 
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
+
 Vue.config.productionTip = false
 
 Vue.use(messagePlugin)
 Vue.use(Vuelidate)
 Vue.filter('date', dateFilter)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+// todo: move config to gitignore config file
+const firebaseConfig = {
+  apiKey: 'AIzaSyDkZpXaFuaa72t3GpJhRjWp_W8YaWpMnoI',
+  authDomain: 'vue-personal-accountant.firebaseapp.com',
+  databaseURL: 'https://vue-personal-accountant.firebaseio.com',
+  projectId: 'vue-personal-accountant',
+  storageBucket: 'vue-personal-accountant.appspot.com',
+  messagingSenderId: '643335573654',
+  appId: '1:643335573654:web:347b3eaa93da63c96632b7'
+}
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig)
+
+let app
+
+firebase.auth().onAuthStateChanged(() => {
+  if (!app) {
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})
