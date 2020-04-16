@@ -115,7 +115,6 @@ export default {
         this.$emit('updated', categoryData)
       } catch (e) {
       }
-
     }
   }
 }
