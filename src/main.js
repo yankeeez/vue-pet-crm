@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuelidate from 'vuelidate'
+import Paginate from 'vuejs-paginate'
 import router from './router'
 import store from './store'
 import dateFilter from './filters/date.filter'
@@ -23,6 +24,7 @@ Vue.filter('date', dateFilter)
 Vue.filter('currency', currencyFilter)
 Vue.directive('tooltipDirective', tooltipDirective)
 Vue.component('Loader', Loader)
+Vue.component('Paginate', Paginate)
 
 // todo: move config to gitignore config file
 const firebaseConfig = {
