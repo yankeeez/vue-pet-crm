@@ -29,6 +29,17 @@ export default {
     isOpenSidebar: true,
     loading: true
   }),
+  computed: {
+    error () {
+      return this.$store.getters.error
+    }
+  },
+  watch: {
+    error (firebaseErr) {
+      // eslint-disable-next-line no-unused-expressions
+      this.$error(firebaseErr.message)
+    }
+  },
   async mounted () {
     if (!Object.keys(this.$store.getters.getUserInfo).length) {
       await this.$store.dispatch('fetchUserInfo')
