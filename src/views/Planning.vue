@@ -45,7 +45,7 @@
       const categories = await this.$store.dispatch('fetchCategories')
 
       this.categories = categories.map(category => {
-        const spend = records
+        const spend = records // todo: refactor, we don't handle incomes
           .filter(r => r.categoryId === category.id)
           .filter(r => r.type === 'outcome')
           .reduce((total, record) => {
