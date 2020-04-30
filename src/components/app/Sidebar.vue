@@ -16,11 +16,13 @@
 </template>
 
 <script>
+import localizeFilter from '../../filters/localize.filter'
+
 export default {
   props: ['value'],
   data: () => ({
     links: [
-      { title: 'Account', url: '/', exact: true },
+      { title: localizeFilter('sidebar.account'), url: '/', exact: true },
       { title: 'History', url: '/history' },
       { title: 'Planning', url: '/planning' },
       { title: 'New Record', url: '/record' },

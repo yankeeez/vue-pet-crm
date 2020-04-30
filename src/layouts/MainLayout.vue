@@ -3,7 +3,7 @@
     <Loader v-if="loading"/>
     <div class="app-main-layout" v-else>
       <Navbar @click="isOpenSidebar = !isOpenSidebar"/>
-      <Sidebar v-model="isOpenSidebar"/>
+      <Sidebar v-model="isOpenSidebar" :key="locale"/>
       <main class="app-content" :class="{full: !isOpenSidebar}">
         <div class="app-page">
           <router-view />
@@ -32,6 +32,9 @@ export default {
   computed: {
     error () {
       return this.$store.getters.error
+    },
+    locale () {
+      return this.$store.getters.getUserInfo.locale
     }
   },
   watch: {
