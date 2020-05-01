@@ -1,24 +1,36 @@
 <template>
-  <form class="card auth-card">
+  <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">Personal Accountant</span>
       <div class="input-field">
         <input
           id="email"
           type="text"
-          class="validate"
+          v-model.trim="email"
+          :class="{invalid: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
         >
         <label for="email">Email</label>
-        <small class="helper-text invalid">Email</small>
+        <small
+          class="helper-text invalid"
+          v-if="$v.email.$dirty && !$v.email.required"
+        >Email is required</small>
+        <small
+          class="helper-text invalid"
+          v-else-if="$v.email.$dirty && !$v.email.email"
+        >Enter valid email</small>
       </div>
       <div class="input-field">
         <input
           id="password"
           type="password"
-          class="validate"
+          v-model.trim="password"
+          :class="{invalid: ($v.password.$dirty && !$v.password.required)}"
         >
-        <label for="password">Пароль</label>
-        <small class="helper-text invalid">Password</small>
+        <label for="password">Password</label>
+        <small
+          class="helper-text invalid"
+          v-if="$v.password.$dirty && !$v.password.required"
+        >Password is required</small>
       </div>
     </div>
     <div class="card-action">
@@ -27,24 +39,59 @@
           class="btn waves-effect waves-light auth-submit"
           type="submit"
         >
-          Войти
+          Login
           <i class="material-icons right">send</i>
         </button>
       </div>
 
       <p class="center">
-        Нет аккаунта?
-        <a href="/">Зарегистрироваться</a>
+        Don't have account yet?
+        <router-link to="/register">Please, register</router-link>
       </p>
     </div>
   </form>
 </template>
 
-<!--<script>-->
-<!--  export default {-->
-<!--    name: 'Logn'-->
-<!--  }-->
-<!--</script>-->
+<script>
+import { email, required } from 'vuelidate/lib/validators'
+import messages from '../utils/messages'
+
+export default {
+  name: 'login',
+  data: () => ({
+    email: '',
+    password: ''
+  }),
+  validations: {
+    email: { email, required },
+    password: { required }
+  },
+  mounted () {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message])
+    }
+  },
+  methods: {
+    async submitHandler () {
+      if (this.$v.$invalid) {
+        this.$v.$touch()
+        return
+      }
+      const formData = {
+        email: this.email,
+        password: this.password
+      }
+      // eslint-disable-next-line no-useless-catch
+      try {
+        await this.$store.dispatch('login', formData)
+        this.$router.push('/')
+      } catch (e) {
+        throw e
+      }
+    }
+  }
+}
+</script>
 
 <!--<style scoped>-->
 
