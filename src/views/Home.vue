@@ -24,9 +24,15 @@
 <script>
 import HomeBill from '@/components/HomeBill'
 import HomeCurrency from '@/components/HomeCurrency'
+import localizeFilter from '../filters/localize.filter'
 
 export default {
   name: 'Home',
+  metaInfo() {
+    return  {
+      title: localizeFilter('meta.title.home')
+    }
+  },
   data: () => ({
     loading: true,
     currency: null

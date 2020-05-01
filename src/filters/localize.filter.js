@@ -3,11 +3,15 @@ import store from '../store'
 const locales = {
   'ru-RU': {
     'profile.title': 'Профиль',
-    'sidebar.account': 'Счет'
+    'sidebar.account': 'Счет',
+    'meta.title.home': 'Домашняя страница',
+    'meta.title.history': 'История'
   },
   'en-EN': {
     'profile.title': 'Profile',
-    'sidebar.account': 'Account'
+    'sidebar.account': 'Account',
+    'meta.title.home': 'Home',
+    'meta.title.history': 'History'
   }
 }
 
